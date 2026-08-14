@@ -53,3 +53,36 @@ export function validateCategoryForm(form) {
 
   return errors
 }
+
+export function validateLoginForm(form) {
+  const errors = {}
+
+  const usernameError = required(form.username, 'El usuario')
+  if (usernameError) errors.username = usernameError
+
+  const passwordError = required(form.password, 'La contraseña')
+  if (passwordError) errors.password = passwordError
+
+  return errors
+}
+
+export function validateUserForm(form, { isEdit = false } = {}) {
+  const errors = {}
+
+  const nameError = required(form.name, 'El nombre')
+  if (nameError) errors.name = nameError
+
+  const usernameError = required(form.username, 'El usuario')
+  if (usernameError) errors.username = usernameError
+
+  if (!isEdit || form.password) {
+    const passwordError = required(form.password, 'La contraseña')
+    if (passwordError) {
+      errors.password = passwordError
+    } else if (form.password.length < 6) {
+      errors.password = 'La contraseña debe tener al menos 6 caracteres.'
+    }
+  }
+
+  return errors
+}
